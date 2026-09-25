@@ -7,6 +7,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.studybuddy.databinding.ActivityLoginBinding;
+import com.example.studybuddy.repository.GeminiRepository;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
@@ -14,6 +15,7 @@ public class LoginActivity extends AppCompatActivity {
     private ActivityLoginBinding binding;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
+    private GeminiRepository geminiRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,11 +27,39 @@ public class LoginActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
         db = FirebaseFirestore.getInstance();
+        geminiRepository = new GeminiRepository(this);
+
         binding.loginButton.setOnClickListener(v -> loginUser());
 
         binding.registerButton.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
             startActivity(intent);
+        });
+
+        binding.testAiButton.setOnClickListener(v -> testGeminiConnection());
+    }
+
+    private void testGeminiConnection() {
+        String question = binding.etQuestion.getText().toString().trim();
+
+        if (question.isEmpty()) {
+            Toast.makeText(this, "Enter a question first",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        binding.tvResponse.setText("Loading...");
+
+        geminiRepository.generateFlashcards(question, new GeminiRepository.GeminiCallback() {
+            @Override
+            public void onSuccess(String response) {
+                binding.tvResponse.setText(response);
+            }
+
+            @Override
+            public void onError(String error) {
+                binding.tvResponse.setText("Error: " + error);
+            }
         });
     }
 

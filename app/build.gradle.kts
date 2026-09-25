@@ -78,7 +78,7 @@ dependencies {
     implementation(libs.logging.interceptor)
 
     implementation(libs.gson)
-
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)

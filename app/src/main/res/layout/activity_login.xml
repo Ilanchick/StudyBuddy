@@ -43,4 +43,23 @@
         android:text="Create Account"
         android:layout_marginTop="8dp" />
 
+    <EditText
+        android:id="@+id/etQuestion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Name"
+        />
+    <Button
+        android:id="@+id/testAiButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test AI" />
+    <TextView
+        android:id="@+id/tvResponse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
 </LinearLayout>
